@@ -1,0 +1,21 @@
+{% extends 'controller/base.html' %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block content %}
+<p>Количество записей: {{posts.all}}</p>
+{% for i in posts %}
+    <div class="post post-id">
+        <ul>
+            <li> {{ i }}</li>
+        </ul>
+    </div>
+{% empty %}
+    <ul>
+        <li>У вас нет ни одного воспоминания</li>
+    </ul>
+    <button>Добавить воспоминание</button>
+{% endfor %}
+{% endblock %}
