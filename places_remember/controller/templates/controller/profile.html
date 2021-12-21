@@ -1,21 +1,30 @@
 {% extends 'controller/base.html' %}
 
 {% block title %}
-Профиль
+    Профиль
 {% endblock %}
 
 {% block content %}
-<p>Количество записей: {{posts.all}}</p>
-{% for i in posts %}
-    <div class="post post-id">
+    {% if request.user.is_authenticated %}
+        {% for i in posts %}
+            <div class="post post-id">
+                <ul>
+                    <li> {{ i }}</li>
+                </ul>
+            </div>
+            {% empty %}
+            <ul>
+                <li>У вас нет ни одного воспоминания</li>
+            </ul>
+            <button>Добавить воспоминание</button>
+        {% endfor %}
+    {% else %}
         <ul>
-            <li> {{ i }}</li>
+            <li>
+                <a href="{% url 'login' %}" class="nav-link px-2 link-dark">Войдите на сайт чтобы видеть ваши
+                    воспоминания</a>
+            </li>
         </ul>
-    </div>
-{% empty %}
-    <ul>
-        <li>У вас нет ни одного воспоминания</li>
-    </ul>
-    <button>Добавить воспоминание</button>
-{% endfor %}
+    {% endif %}
+
 {% endblock %}
