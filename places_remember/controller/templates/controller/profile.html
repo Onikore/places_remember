@@ -7,7 +7,7 @@
 {% block content %}
     {% if request.user.is_authenticated %}
         {% for i in posts %}
-            <div class="post post-id">
+            <div>
                 <ul>
                     <li> {{ i }}</li>
                 </ul>
