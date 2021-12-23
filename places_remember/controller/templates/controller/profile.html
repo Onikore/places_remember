@@ -9,14 +9,14 @@
         {% for i in posts %}
             <div>
                 <ul>
-                    <li> {{ i }}</li>
+                    <li>{{ i }}</li>
                 </ul>
             </div>
             {% empty %}
             <ul>
                 <li>У вас нет ни одного воспоминания</li>
             </ul>
-            <button>Добавить воспоминание</button>
+            <button class="btn btn-primary" type="submit" onclick="location.href='{% url 'add' %}'">Добавить</button>
         {% endfor %}
     {% else %}
         <ul>

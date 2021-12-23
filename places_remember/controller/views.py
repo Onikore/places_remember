@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from .forms import RegisterUserForm, LoginUserForm
+from .forms import RegisterUserForm, LoginUserForm, AddUserPost
+from .models import UserProfile
 
 
 def home(request):
@@ -12,12 +13,26 @@ def home(request):
 
 
 def profile(request):
-    return render(request, 'controller/profile.html', {})
+    context = {}
+    user = request.user
+    if user.is_authenticated:
+        if not UserProfile.objects.filter(user=user).exists():
+            UserProfile(user=user, data={}).save()
+        posts = list(user.userprofile.data)
+        context['posts'] = posts
+
+    return render(request, 'controller/profile.html', context)
 
 
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+class AddPost(CreateView):
+    form_class = AddUserPost
+    template_name = 'controller/add_post.html'
+    success_url = reverse_lazy('profile')
 
 
 class RegisterUser(CreateView):
@@ -28,7 +43,7 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('profile')
 
 
 class LoginUser(LoginView):
@@ -36,4 +51,4 @@ class LoginUser(LoginView):
     template_name = 'controller/login.html'
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('profile')
