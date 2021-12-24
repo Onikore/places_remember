@@ -1,7 +1,8 @@
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+
+from .models import UserPosts
 
 
 class RegisterUserForm(UserCreationForm):
@@ -10,11 +11,11 @@ class RegisterUserForm(UserCreationForm):
                                    attrs={'class': 'form-control',
                                           'id': 'floatingInput'}))
     password1 = forms.CharField(label='Пароль',
-                                widget=forms.TextInput(
+                                widget=forms.PasswordInput(
                                     attrs={'class': 'form-control',
                                            'id': 'floatingPassword1'}))
     password2 = forms.CharField(label='Повторите пароль',
-                                widget=forms.TextInput(
+                                widget=forms.PasswordInput(
                                     attrs={'class': 'form-control',
                                            'id': 'floatingPassword2'}))
 
@@ -38,7 +39,7 @@ class AddUserPost(forms.ModelForm):
                                              'id': 'floatingInput'}))
 
     class Meta:
-        model = User
+        model = UserPosts
         fields = ('title', 'location', 'description')
 
 

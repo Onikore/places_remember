@@ -3,15 +3,16 @@ from django.db import models
 from django.db.models import CASCADE
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=CASCADE)
-    data = models.JSONField(verbose_name='Воспоминания',
-                            blank=False,
-                            default={})
+class UserPosts(models.Model):
+    username = models.ForeignKey(User, on_delete=CASCADE, null=True, blank=True)
+    title = models.TextField(max_length=255)
+    location = models.CharField(max_length=255)
+    description = models.TextField(max_length=255)
+    pub_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.user
+        return self.title
 
     class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
+        verbose_name = 'Запись пользователя'
+        verbose_name_plural = 'Записи пользователей'

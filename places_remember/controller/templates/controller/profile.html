@@ -6,17 +6,31 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
+        <h1 class="h3 mb-3 fw-normal">Всего записей: {{ posts|length }}</h1>
+        <button class="btn btn-primary mb-3" type="submit"
+                onclick="location.href='{% url 'add' %}'">Добавить запись
+        </button>
         {% for i in posts %}
-            <div>
-                <ul>
-                    <li>{{ i }}</li>
-                </ul>
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">{{ i.title }}</h3>
+                            <div class="mb-1 text-muted">{{ i.pub_date }}</div>
+                            <p class="card-text mb-auto">{{ i.description|truncatechars:10 }}</p>
+                            <div class="mb-1 text-muted">{{ i.location }} </div>
+                            <button class="btn btn-primary" type="submit">Удалить запись</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% empty %}
             <ul>
                 <li>У вас нет ни одного воспоминания</li>
             </ul>
-            <button class="btn btn-primary" type="submit" onclick="location.href='{% url 'add' %}'">Добавить</button>
+            <button class="btn btn-primary" type="submit"
+                    onclick="location.href='{% url 'add' %}'">Добавить
+            </button>
         {% endfor %}
     {% else %}
         <ul>
@@ -26,5 +40,10 @@
             </li>
         </ul>
     {% endif %}
+    <style>
+        .btn-primary {
+            background-color: black;
+        }
+    </style>
 
 {% endblock %}

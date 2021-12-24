@@ -5,20 +5,18 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .forms import RegisterUserForm, LoginUserForm, AddUserPost
-from .models import UserProfile
+from .models import UserPosts
 
 
 def home(request):
     return render(request, 'controller/home.html', {})
 
 
-def profile(request):
+def load_profile(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-        if not UserProfile.objects.filter(user=user).exists():
-            UserProfile(user=user, data={}).save()
-        posts = list(user.userprofile.data)
+        posts = list(UserPosts.objects.filter(username=request.user))
         context['posts'] = posts
 
     return render(request, 'controller/profile.html', context)
@@ -32,7 +30,12 @@ def logout_user(request):
 class AddPost(CreateView):
     form_class = AddUserPost
     template_name = 'controller/add_post.html'
-    success_url = reverse_lazy('profile')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.username = self.request.user
+        user.save()
+        return redirect('profile')
 
 
 class RegisterUser(CreateView):
