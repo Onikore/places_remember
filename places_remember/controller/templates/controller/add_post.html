@@ -1,0 +1,30 @@
+{% extends 'controller/base.html' %}
+
+{% block title %} Добавление воспоминания {% endblock %}
+
+{% block content %}
+    <main class="form-signin text-center">
+        <form method="post">
+            <h1 class="h3 mb-3 fw-normal">Вход</h1>
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for i in form %}
+                <div class="form-floating mb-3">
+                    {{ i }}
+                    <label class="form-label" for="{{ i.id_for_label }}">{{ i.label }}</label>
+                    <div class="form-error">{{ i.errors }}</div>
+                </div>
+            {% endfor %}
+            <p></p>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Добавить</button>
+        </form>
+    </main>
+    <style>
+        .form-signin {
+            width: 100%;
+            max-width: 450px;
+            padding: 15px;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
