@@ -7,11 +7,12 @@
 {% block content %}
     {% if request.user.is_authenticated %}
         <h1 class="h3 mb-3 fw-normal">Всего записей: {{ posts|length }}</h1>
-        <button class="btn btn-primary mb-3" type="submit"
-                onclick="location.href='{% url 'add' %}'">Добавить запись
-        </button>
-        {% for i in posts %}
-            <div class="row mb-2">
+        <a class="btn btn-primary mb-3"
+           type="submit"
+           href="{% url 'add' %}">Добавить запись
+        </a>
+        <div class="row mb-2">
+            {% for i in posts %}
                 <div class="col-md-3">
                     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                         <div class="col p-4 d-flex flex-column position-static">
@@ -19,19 +20,25 @@
                             <div class="mb-1 text-muted">{{ i.pub_date }}</div>
                             <p class="card-text mb-auto">{{ i.description|truncatechars:10 }}</p>
                             <div class="mb-1 text-muted">{{ i.location }} </div>
-                            <button class="btn btn-primary" type="submit">Удалить запись</button>
+                            <div>
+                                <a class="btn btn-secondary w-40"
+                                   type="submit"
+                                   href="{% url 'view_post' i.slug %}">Посмотреть
+                                </a>
+                                <a class="btn btn-secondary w-40"
+                                   type="submit"
+                                   href="{% url 'delete_post' i.slug %}">Удалить
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {% empty %}
-            <ul>
-                <li>У вас нет ни одного воспоминания</li>
-            </ul>
-            <button class="btn btn-primary" type="submit"
-                    onclick="location.href='{% url 'add' %}'">Добавить
-            </button>
-        {% endfor %}
+                {% empty %}
+                <ul>
+                    <li>У вас нет ни одного воспоминания</li>
+                </ul>
+            {% endfor %}
+        </div>
     {% else %}
         <ul>
             <li>
@@ -41,7 +48,7 @@
         </ul>
     {% endif %}
     <style>
-        .btn-primary {
+        .btn-secondary {
             background-color: black;
         }
     </style>

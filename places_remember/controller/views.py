@@ -1,6 +1,6 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
@@ -10,6 +10,16 @@ from .models import UserPosts
 
 def home(request):
     return render(request, 'controller/home.html', {})
+
+
+def view_post(request, post_slug):
+    post = get_object_or_404(UserPosts, slug=post_slug)
+    return render(request, 'controller/view_post.html', {'post': post})
+
+
+def delete_post(request, post_slug):
+    UserPosts.objects.filter(slug=post_slug).delete()
+    return load_profile(request)
 
 
 def load_profile(request):

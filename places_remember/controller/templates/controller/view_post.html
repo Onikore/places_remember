@@ -1,0 +1,19 @@
+{% extends 'controller/base.html' %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="row mb-2">
+            {{ post.title }}
+        </div>
+    {% else %}
+        <ul>
+            <li>
+                хуй
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}
